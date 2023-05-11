@@ -11,22 +11,34 @@
     <main>
         <section>
             <h1>HANG MAN</h1>
-            <div id="hanged-man"></div>
-        </section>
+            <div id="hanged-man">
+                <img src="hangman_img.jpg" alt="">
+            </div>
 
-        <section id="keyboard">
-            <div id="hidden-letters hide">_ _ _ _ _ </div>
+        </section>
+        
+        <section id="input_user">
+            <div id="hidden-letters">
+                <div class="letters">A</div>
+                <div class="letters">B</div>
+                <div class="letters">C</div>
+                <div class="letters">D</div>
+            </div>
+            <div id="keyboard"></div>
+            <button id="restartButton">New Game</button>
         </section>
 
         <section id="themes">
             <h2>Choose a theme:</h2>
-            <div id="theme-btns">
+            <div id="theme-container">
                 <button>Country</button>
                 <button>Sport</button>
                 <button>Object</button>
+                
             </div>
             
         </section>
     </main>
+    <script src="main.js"></script>
 </body>
 </html>
