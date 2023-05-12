@@ -2,7 +2,7 @@ const hiddenLetters = document.getElementById("hidden-letters");
 const themesContainer = document.getElementById("themes-container");
 const keyboard = document.getElementById("keyboard");
 const restartButton = document.getElementById("new-game");
-const optBtn = document.getElementById("opt-btn");
+
 
 let secretWord;
 let chosenTheme;
@@ -11,11 +11,12 @@ let tryAmount = 6;
 // const hangedManFig
 
 let themes_obj = {
-    country: ["Brazil", "Mexico"],
-    sport: ["Football", "Basketball"],
-    object: ["Pen", "Chair"],
+    country: ["BRASIL", "MEXICO"],
+    sport: ["FOOTBALL", "BASKETBALL"],
+    object: ["PEN", "CHAIR"],
 }
 
+createSecretWord("object");
 function createSecretWord(theme) {
     chosenTheme = theme;
     if (theme == "country") {
@@ -31,10 +32,13 @@ function createSecretWord(theme) {
     console.log(secretWord)
 }
 
+showHiddenSpaces();
 function showHiddenSpaces() {
     const theme = document.getElementById("theme");
     theme.innerHTML = chosenTheme;
+
     const wordScreen = document.getElementById("hidden-letters");
+    wordScreen.innerHTML = "";
 
     for (i = 0; i < secretWord.length; i++) {
         if (dynamicList[i] == undefined) {
@@ -47,13 +51,51 @@ function showHiddenSpaces() {
 }
 
 function verifyChosenLetter(letter) {
+    document.getElementById(letter).disabled = true;
     if (tryAmount > 0) {
         changeLetterStyle(letter);
+        letterInSecretWord(letter);
+        showHiddenSpaces();    
     }
 }
 
 function changeLetterStyle(letter) {
     document.getElementById(letter).style.background = "#23243d"
+}
+
+function changeHangedImg() {
+    switch(tryAmount) {
+        case 4:
+            document.getElementById("hanged-img").src="hangman_img2.jpg";
+    }
+}
+
+function letterInSecretWord(letter) {
+    console.log(letter)
+    const position = secretWord.indexOf(letter);
+    console.log(position)
+    console.log(secretWord)
+
+    if (position < 0) {
+        tryAmount--;
+        changeHangedImg();
+        // VERIFY IF THERE'S ATTEMPTS // show message
+    } else {
+        for(i = 0; i < secretWord.length; i++) {
+            if (secretWord[i] == letter) {
+                dynamicList[i] = letter;
+            }
+        }
+    }
+    let win = true;
+    for(i = 0; i < secretWord.length; i++) {
+        if (secretWord[i] != dynamicList[i]) {
+            win = false;
+        }
+    }
+    if (win) {
+        tryAmount = 0;
+    }
 }
 
 // CREATING KEYBOARD
@@ -71,18 +113,5 @@ function generateButtons() {
     document.getElementById("keyboard").innerHTML = buttonsHTML;
 }
 
-
-// STARTER
-const starter = () => {
-    wins_amount = 0;
-    counter = 0;
-}
-
-// CALLING FUNCTIONS
-createSecretWord("object");
-showHiddenSpaces();
-
 // RESTART GAME
 generateButtons();
-// restartButton.addEventListener("click", starter);
-// window.onload = starter;
