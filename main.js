@@ -55,7 +55,7 @@ function verifyChosenLetter(letter) {
     if (tryAmount > 0) {
         changeLetterStyle(letter);
         letterInSecretWord(letter);
-        showHiddenSpaces();    
+        showHiddenSpaces();
     }
 }
 
@@ -65,21 +65,42 @@ function changeLetterStyle(letter) {
 
 function changeHangedImg() {
     switch(tryAmount) {
+        case 5:
+            document.getElementById("hanged-img").src="hangman_draw2.png";
+            break;
         case 4:
-            document.getElementById("hanged-img").src="hangman_img2.jpg";
+            document.getElementById("hanged-img").src="hangman_draw3.png";
+            break;
+        case 3:
+            document.getElementById("hanged-img").src="hangman_draw4.png";
+            break;
+        case 2:
+            document.getElementById("hanged-img").src="hangman_draw5.png";
+            break;
+        case 1:
+            document.getElementById("hanged-img").src="hangman_draw6.png";
+            break;
+        case 0:
+            document.getElementById("hanged-img").src="hangman_draw7.png";
+            break;
     }
 }
 
 function letterInSecretWord(letter) {
-    console.log(letter)
     const position = secretWord.indexOf(letter);
-    console.log(position)
-    console.log(secretWord)
 
     if (position < 0) {
         tryAmount--;
         changeHangedImg();
-        // VERIFY IF THERE'S ATTEMPTS // show message
+        if (tryAmount == 0) {
+            document.body.style.filter = "brightness(50%)";
+            sleep(10)
+            tryAmount--;
+            if (tryAmount == -1) {
+                window.alert("You've lost");
+            }           
+        }
+        
     } else {
         for(i = 0; i < secretWord.length; i++) {
             if (secretWord[i] == letter) {
